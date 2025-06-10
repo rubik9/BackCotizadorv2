@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { applyCors } from '../../utils/applyCors';
+import { applyCors } from '../utils/applyCors';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

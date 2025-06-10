@@ -1,5 +1,5 @@
 
-import { applyCors } from '../../utils/applyCors';
+import { applyCors } from '../utils/applyCors';
 
 export default async function handler(req, res) {
   const corsHandled = applyCors(req, res);
