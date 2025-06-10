@@ -1,6 +1,6 @@
 export function applyCors(req, res) {
   const allowedOrigins = [
-    '*' // tu dominio real
+    'http://localhost:3000' // tu dominio real
   ];
 
   const origin = req.headers.origin;
