@@ -12,15 +12,22 @@ export default async function handler(req, res) {
     return;
   }
 
-  const { cotizacionId, pdfBase64, revisoresEmails, usuarioNombre, revision ,usuarioEmail} =
-    req.body;
-const tokenData = {
-  cotizacionId,
-  usuarioEmail,
-  usuarioNombre
-};
+  const {
+    cotizacionId,
+    pdfBase64,
+    revisoresEmails,
+    usuarioNombre,
+    revision,
+    usuarioEmail,
+  } = req.body;
+  
+  const tokenData = {
+    cotizacionId,
+    usuarioEmail,
+    usuarioNombre,
+  };
 
-const token = Buffer.from(JSON.stringify(tokenData)).toString("base64");
+  const token = Buffer.from(JSON.stringify(tokenData)).toString("base64");
   console.log(
     `✅ Recibido create-cotizacion: ${cotizacionId} + ${usuarioNombre} + ${usuarioEmail} + ${revision}`
   );
@@ -28,8 +35,6 @@ const token = Buffer.from(JSON.stringify(tokenData)).toString("base64");
 
   if (revision === true) {
     try {
-      
-
       const approveLink = `${process.env.BACKEND_URL}/api/approve?id=${cotizacionId}&token=${token}`;
       const rejectLink = `${process.env.BACKEND_URL}/api/reject?id=${cotizacionId}&token=${token}`;
 

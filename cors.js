@@ -1,18 +1,26 @@
-export function allowCors(handler) {
-  return async (req, res) => {
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Origin', '*'); // O SOLO 'http://localhost:3000' si quieres restringir
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    );
+export function applyCors(req, res) {
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://cotizador.albapesamascotas.net',
+    // Si usas un dominio de pruebas, lo puedes agregar aquí:
+    // 'https://test-cotizador.albapesamascotas.net',
+  ];
 
-    if (req.method === 'OPTIONS') {
-      res.status(200).end();
-      return;
-    }
+  const origin = req.headers.origin;
 
-    return await handler(req, res);
-  };
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  // Manejar preflight requests
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return true; // CORS handled, detener el handler
+  }
+
+  return false; // CORS no bloqueó, continuar con el handler
 }
