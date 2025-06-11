@@ -12,17 +12,23 @@ export default async function handler(req, res) {
     return;
   }
 
-  const { cotizacionId, pdfBase64, revisoresEmails, creador, revision } =
+  const { cotizacionId, pdfBase64, revisoresEmails, usuarioNombre, revision ,usuarioEmail} =
     req.body;
+const tokenData = {
+  cotizacionId,
+  usuarioEmail,
+  usuarioNombre
+};
 
+const token = Buffer.from(JSON.stringify(tokenData)).toString("base64");
   console.log(
-    `✅ Recibido create-cotizacion: ${cotizacionId} + ${creador} + ${revision}`
+    `✅ Recibido create-cotizacion: ${cotizacionId} + ${usuarioNombre} + ${usuarioEmail} + ${revision}`
   );
   console.log(`📨 Revisores:`, revisoresEmails);
 
   if (revision === true) {
     try {
-      const token = Buffer.from(`${cotizacionId}-mi-clave`).toString("base64");
+      
 
       const approveLink = `${process.env.BACKEND_URL}/api/approve?id=${cotizacionId}&token=${token}`;
       const rejectLink = `${process.env.BACKEND_URL}/api/reject?id=${cotizacionId}&token=${token}`;
@@ -60,13 +66,13 @@ export default async function handler(req, res) {
   } else {
     try {
       await resend.emails.send({
-        from: "cotizaciones@albapesa.com.mx",
+        from: "Cotizacion Generada <cotizaciones@albapesa.com.mx>",
         to: revisoresEmails,
         subject: `Cotización #${cotizacionId} `,
         html: `
         <div style="font-family: sans-serif; padding: 20px;">
           <h2>📋 Cotización #${cotizacionId}</h2>
-          <p>Generaste tu nueva cotizacion ${creador} </p>
+          <p>Generaste tu nueva cotizacion ${usuarioNombre} </p>
          
           <p>Gracias.</p>
         </div>
