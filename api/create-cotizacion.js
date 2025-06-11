@@ -40,7 +40,7 @@ const token = Buffer.from(JSON.stringify(tokenData)).toString("base64");
         html: `
         <div style="font-family: sans-serif; padding: 20px;">
           <h2>📋 Cotización #${cotizacionId}</h2>
-          <p>Se ha generado una nueva cotización por ${creador} y requiere su aprobación.</p>
+          <p>Se ha generado una nueva cotización por ${usuarioNombre} y requiere su aprobación.</p>
           <p>
             <a href="${approveLink}" style="background-color: green; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">✅ Aprobar</a>
             &nbsp;
