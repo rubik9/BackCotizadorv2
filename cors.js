@@ -2,6 +2,7 @@ export function applyCors(req, res) {
   const allowedOrigins = [
     'http://localhost:3000',
     'https://cotizador.albapesamascotas.net',
+   // https://cotizador.albapesamascotas.net/
     // Si usas un dominio de pruebas, lo puedes agregar aquí:
     // 'https://test-cotizador.albapesamascotas.net',
   ];
